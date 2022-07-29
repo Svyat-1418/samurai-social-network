@@ -2,17 +2,13 @@ import {profileAPI, usersAPI} from "../api/api";
 import {AppThunk} from "./reduxStore";
 
 const ADD_POST = "ADD_POST"
-const UPDATE_NEW_POST_TEXT = "UPDATE_NEW_POST_TEXT"
 const SET_USER_PROFILE = "SET_USER_PROFILE"
 const SET_PROFILE_STATUS = "SET_PROFILE_STATUS"
 const UPDATE_PROFILE_STATUS = "UPDATE_PROFILE_STATUS"
 
 export type AddPostActionType = {
     type: typeof ADD_POST
-}
-export type UpdateNewPostTextActionType = {
-    type: typeof UPDATE_NEW_POST_TEXT
-    newText: string
+    postText: string
 }
 export type SetUserProfileActionType = {
     type: typeof SET_USER_PROFILE
@@ -56,13 +52,11 @@ export type ProfileType = {
 }
 export type ProfileActionsType =
     AddPostActionType |
-    UpdateNewPostTextActionType |
     SetUserProfileActionType |
     SetProfileStatusActionType |
     UpdateProfileStatusActionType
 
 const initialState = {
-    newPostText: "",
     posts: [
         {id: 1, message: "It is my first typescript project", likesCount: 12},
         {id: 2, message: "I like typescript", likesCount: 10},
@@ -79,13 +73,7 @@ export const profileReducer = (state: InitialStateType = initialState, action: P
         case ADD_POST:
             return {
                 ...state,
-                posts: [...state.posts, {id: 10, message: state.newPostText, likesCount: 0}],
-                newPostText: ""
-            }
-        case UPDATE_NEW_POST_TEXT:
-            return {
-                ...state,
-                newPostText: action.newText
+                posts: [...state.posts, {id: 11111, message: action.postText, likesCount: 0}],
             }
         case "SET_USER_PROFILE":
             return {...state, profile: action.profile}
@@ -98,9 +86,7 @@ export const profileReducer = (state: InitialStateType = initialState, action: P
     }
 }
 
-export const addPostAC = (): AddPostActionType => ({type: ADD_POST} as const)
-export const updateNewPostTextAC = (newText: string): UpdateNewPostTextActionType =>
-    ({type: UPDATE_NEW_POST_TEXT, newText} as const)
+export const addPostAC = (postText: string): AddPostActionType => ({type: ADD_POST, postText} as const)
 const setUserProfile = (profile: ProfileType | null): SetUserProfileActionType =>
     ({type: SET_USER_PROFILE, profile} as const)
 const setProfileStatusSuccess = (status: string): SetProfileStatusActionType =>

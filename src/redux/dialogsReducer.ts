@@ -1,5 +1,4 @@
 const SEND_MESSAGE = "SEND-MESSAGE"
-const UPDATE_NEW_MESSAGE_TEXT = "UPDATE-NEW-MESSAGE-TEXT"
 
 export type DialogType = {
     id: number
@@ -12,17 +11,12 @@ export type MessageType = {
 
 export type SendMessageActionType = {
     type: typeof SEND_MESSAGE
-}
-export type UpdateNewMessageTextActionType = {
-    type: typeof UPDATE_NEW_MESSAGE_TEXT
-    newText: string
+    messageText: string
 }
 export type DialogsActionsType =
-    SendMessageActionType |
-    UpdateNewMessageTextActionType
+    SendMessageActionType
 
 const initialState = {
-    newMessageText: "",
     dialogs: [
         {id: 1, name: "Dmitri"},
         {id: 2, name: "Victoria"},
@@ -43,19 +37,11 @@ export const dialogsReducer = (state: InitialStateType = initialState, action: D
         case SEND_MESSAGE:
             return {
                 ...state,
-                messages: [...state.messages, {id: 10, message: state.newMessageText}],
-                newMessageText: ""
-            }
-        case UPDATE_NEW_MESSAGE_TEXT:
-            return {
-                ...state,
-                newMessageText: action.newText
+                messages: [...state.messages, {id: 15436, message: action.messageText}],
             }
         default:
             return state
     }
 }
 
-export const sendMessageAC = (): SendMessageActionType => ({type: SEND_MESSAGE} as const)
-export const updateNewMessageTextAC = (newText: string): UpdateNewMessageTextActionType =>
-    ({type: UPDATE_NEW_MESSAGE_TEXT, newText} as const)
+export const sendMessageAC = (messageText: string): SendMessageActionType => ({type: SEND_MESSAGE, messageText} as const)

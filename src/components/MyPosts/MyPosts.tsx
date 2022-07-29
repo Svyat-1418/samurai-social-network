@@ -1,40 +1,49 @@
-import React, {ChangeEvent} from "react";
+import React from "react";
 import styles from "./MyPosts.module.css"
 import {Post} from "../Post/Post";
 import {InitialStateType} from "../../redux/profileReducer";
+import {Field, InjectedFormProps, reduxForm} from "redux-form";
 
 type PropsType = {
     profilePage: InitialStateType
-    addPost: () => void
-    updateNewPostText: (newText: string) => void
+    addPost: (postText: string) => void
 }
 
+type FormDataType = {
+    postText: string
+}
+
+const AddPostForm = (props: InjectedFormProps<FormDataType>) => {
+    return (
+        <form onSubmit={props.handleSubmit}>
+            <div>
+                <Field
+                    component={"textarea"}
+                    name={"postText"}
+                    placeholder="Write post text here..."/>
+            </div>
+            <div>
+                <button>Add post</button>
+            </div>
+        </form>
+    )
+}
+
+const AddPostReduxForm = reduxForm<FormDataType>({form: "addPost"})(AddPostForm)
+
 export const MyPosts = (props: PropsType) => {
-    const addPostHandler = () => {
-        props.addPost()
-    }
-    const updateNewPostTextHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        const text = e.currentTarget.value
-        props.updateNewPostText(text)
+    const onSubmit = (formData: FormDataType) => {
+        console.log(formData)
+        props.addPost(formData.postText)
     }
 
     return (
-        <div className={styles.postsWrapper}>
-            <h3>My posts</h3>
-            <div>
-                <textarea
-                    onChange={updateNewPostTextHandler}
-                    placeholder="What new?"
-                    value={props.profilePage.newPostText}
-                />
-                <div>
-                    <button onClick={addPostHandler}>Add post</button>
-                </div>
-            </div>
-
+        <>
+            <AddPostReduxForm onSubmit={onSubmit}/>
             <div className={styles.posts}>
-                {props.profilePage.posts.map(p => <Post key={p.id} id={p.id} message={p.message} likesCount={p.likesCount}/>)}
+                {props.profilePage.posts.map(p => <Post key={p.id} id={p.id} message={p.message}
+                                                        likesCount={p.likesCount}/>)}
             </div>
-        </div>
+        </>
     )
 }
