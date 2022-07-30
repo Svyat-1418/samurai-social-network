@@ -1,0 +1,8 @@
+.wrapper.error input,
+.wrapper.error textarea {
+    border: 2px solid #ff0f1b;
+    outline: none;
+}
+.error {
+    color: #ff0f1b;
+}
