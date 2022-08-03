@@ -1,5 +1,6 @@
-import {authAPI, LoginPayloadType} from "../api/api";
+import {authAPI, LoginPayloadType, ResultCode} from "../api/api";
 import {AppThunk} from "./reduxStore";
+import {FormAction, stopSubmit} from "redux-form";
 
 const SET_AUTH_USER_DATA = "SET_AUTH_USER_DATA"
 
@@ -13,10 +14,12 @@ type SetAuthUserDataActionType = {
     }
 }
 
-export type AuthActionsType = SetAuthUserDataActionType
+export type AuthActionsType =
+    SetAuthUserDataActionType |
+    FormAction
 
 const initialState = {
-    userId: null as null | number,
+    userId: "" as string,
     email: null as null | string,
     login: null as null | string,
     isAuth: false
@@ -48,8 +51,11 @@ export const getAuthUserData = (): AppThunk => (dispatch) => {
 export const login = (payload: LoginPayloadType): AppThunk => (dispatch) => {
     authAPI.login(payload)
         .then((res) => {
-            if (res.data.resultCode === 0) {
+            if (res.data.resultCode === ResultCode.success) {
                 dispatch(getAuthUserData())
+            } else if (res.data.resultCode === ResultCode.error) {
+                // add res error to "login" form
+                dispatch(stopSubmit("login", {_error: res.data.messages[0]}))
             }
         })
 }

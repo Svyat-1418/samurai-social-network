@@ -7,6 +7,7 @@ import {login} from "../../redux/authReducer";
 import {AppRootStateType} from "../../redux/reduxStore";
 import {Redirect} from "react-router-dom";
 import {LoginPayloadType} from "../../api/api";
+import styles from "../common/FieldControls/FieldControls.module.css"
 
 export type MapStateToPropsType = {
     isAuth: boolean
@@ -45,6 +46,10 @@ const LoginForm = (props: InjectedFormProps<FormDataType>) => {
                     validate={[required]}
                 />
             </div>
+            {/* view res error on layout */}
+            {props.error && <div className={styles.summaryLoginFormError}>
+                {props.error}
+            </div>}
             <div>
                 <Field
                     component={"input"}

@@ -6,3 +6,10 @@
 .error {
     color: #ff0f1b;
 }
+.summaryLoginFormError {
+    border: 2px solid #ff0f1b;
+    background: #ff0f1b ;
+    color: whitesmoke;
+    padding: 5px;
+    max-width: 200px;
+}
