@@ -2,9 +2,25 @@ import React from "react";
 import {Field, InjectedFormProps, reduxForm} from "redux-form";
 import {required} from "../../utils/validators/fieldValidators";
 import {Input} from "../common/FieldControls/FieldControls";
+import {connect} from "react-redux";
+import {login} from "../../redux/authReducer";
+import {AppRootStateType} from "../../redux/reduxStore";
+import {Redirect} from "react-router-dom";
+import {LoginPayloadType} from "../../api/api";
+
+export type MapStateToPropsType = {
+    isAuth: boolean
+}
+type PropsType = {
+    isAuth: boolean
+    login: (payload: LoginPayloadType) => void
+}
+
+const mapStateToProps = (state: AppRootStateType): MapStateToPropsType =>
+    ({isAuth: state.auth.isAuth})
 
 type FormDataType = {
-    login: string
+    email: string
     password: string
     rememberMe: boolean
 }
@@ -15,14 +31,15 @@ const LoginForm = (props: InjectedFormProps<FormDataType>) => {
             <div>
                 <Field
                     component={Input}
-                    name={"login"}
-                    placeholder={"Type your login"}
+                    name={"email"}
+                    placeholder={"Type your email"}
                     validate={[required]}
                 />
             </div>
             <div>
                 <Field
                     component={Input}
+                    type={"password"}
                     name={"password"}
                     placeholder={"Type your password"}
                     validate={[required]}
@@ -43,9 +60,17 @@ const LoginForm = (props: InjectedFormProps<FormDataType>) => {
 
 const LoginReduxForm = reduxForm<FormDataType>({form: 'login'})(LoginForm)
 
-export const Login = () => {
+export const Login = (props: PropsType) => {
     const onSubmit = (formData: FormDataType) => {
-        console.log(formData)
+        props.login({
+            email: formData.email,
+            password: formData.password,
+            rememberMe: formData.rememberMe
+        })
+    }
+
+    if (props.isAuth) {
+        return <Redirect to={"/profile"}/>
     }
 
     return (<div>
@@ -54,3 +79,5 @@ export const Login = () => {
         </div>
     )
 }
+
+export default connect(mapStateToProps, {login})(Login)

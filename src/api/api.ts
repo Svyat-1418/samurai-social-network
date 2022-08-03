@@ -42,10 +42,22 @@ export const profileAPI = {
 
 export const authAPI = {
     me() {
-        return instance.get<{data: AuthMeResponseType, resultCode: number}>(`auth/me`)
+        return instance.get<{ data: AuthMeResponseType, resultCode: number }>(`auth/me`)
+    },
+    login(payload: LoginPayloadType) {
+        return instance.post(`auth/login`, payload)
+    },
+    logout() {
+        return instance.delete(`auth/login`)
     }
 }
 
+export type LoginPayloadType = {
+    email: string
+    password: string
+    rememberMe: boolean
+    captcha?: string
+}
 type AuthMeResponseType = {
     id: number
     email: string

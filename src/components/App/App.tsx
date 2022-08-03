@@ -7,7 +7,7 @@ import {UsersContainer} from "../Users/UsersContainer";
 import {NavbarContainer} from "../Navbar/NavbarContainer";
 import ProfileContainer from "../Profile/ProfileContainer";
 import HeaderContainer from '../Header/HeaderContainer';
-import { Login } from '../Login/Login';
+import Login from '../Login/Login';
 import {News} from "../News/News";
 import {Music} from "../Music/Music";
 import {Settings} from "../Settings/Settings";
