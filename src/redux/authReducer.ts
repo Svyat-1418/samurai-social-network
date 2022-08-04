@@ -40,7 +40,7 @@ export const setAuthUserData =
         ({type: SET_AUTH_USER_DATA, payload: {userId, email, login, isAuth}} as const)
 
 export const getAuthUserData = (): AppThunk => (dispatch) => {
-    authAPI.me()
+    return authAPI.me()
         .then((res) => {
             if (res.data.resultCode === 0) {
                 const {id, email, login} = res.data.data
