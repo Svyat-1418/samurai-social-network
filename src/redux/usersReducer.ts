@@ -127,7 +127,7 @@ export const toggleIsFetching = (isFetching: boolean): ToggleIsFetchingActionTyp
 export const toggleIsFollowingProgress = (isFetching: boolean, userId: number): ToggleIsFollowingProgressActionType =>
     ({type: TOGGLE_IS_FOLLOWING_PROGRESS, isFetching, userId} as const)
 
-export const getUsers = (currentPage: number, pageSize: number): AppThunk => (dispatch) => {
+export const fetchUsers = (currentPage: number, pageSize: number): AppThunk => (dispatch) => {
     dispatch(setCurrentPage(currentPage))
     dispatch(toggleIsFetching(true))
     usersAPI.getUsers(currentPage, pageSize)
