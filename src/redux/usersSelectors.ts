@@ -1,8 +1,15 @@
 import {AppRootStateType} from "./reduxStore";
+import {createSelector} from "reselect";
 
-export const getUsers = (state: AppRootStateType) => {
+export const getUsersSelector = (state: AppRootStateType) => {
     return state.usersPage.users
 }
+export const getUsers = createSelector(getUsersSelector, users =>
+    users.filter(user => true)
+)
+// createSelector() from 'reselect' library allows us to avoid
+// unnecessary renderings thanks to caching selectors
+
 export const getPageSize = (state: AppRootStateType) => {
     return state.usersPage.pageSize
 }
