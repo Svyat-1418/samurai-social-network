@@ -25,7 +25,7 @@ type UrlParams = {
 
 type PropsType = RouteComponentProps<UrlParams>&MapStateToPropsType & MapDispatchToPropsType
 
-class ProfileContainer extends React.Component<PropsType> {
+class ProfileContainer extends React.PureComponent<PropsType> {
     componentDidMount() {
 
         let userId = this.props.match.params.userId
@@ -38,6 +38,11 @@ class ProfileContainer extends React.Component<PropsType> {
         this.props.getUserProfile(+userId)
         this.props.getProfileStatus(+userId)
     }
+
+    // React.PureComponent analog of code bellow
+    // shouldComponentUpdate(nextProps: Readonly<PropsType>, nextState: Readonly<{}>): boolean {
+    //     return this.props !== nextProps || this.state !== nextState
+    // }
 
     render() {
         return <Profile {...this.props}

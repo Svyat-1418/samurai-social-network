@@ -38,7 +38,7 @@ const AddPostForm = (props: InjectedFormProps<FormDataType>) => {
 
 const AddPostReduxForm = reduxForm<FormDataType>({form: "addPost"})(AddPostForm)
 
-export const MyPosts = (props: PropsType) => {
+export const MyPosts = React.memo((props: PropsType) => {
     const onSubmit = (formData: FormDataType) => {
         console.log(formData)
         props.addPost(formData.postText)
@@ -53,4 +53,4 @@ export const MyPosts = (props: PropsType) => {
             </div>
         </>
     )
-}
+})
