@@ -2,6 +2,7 @@ import {profileAPI, usersAPI} from "../api/api";
 import {AppThunk} from "./reduxStore";
 
 const ADD_POST = "ADD_POST"
+const DELETE_POST = "DELETE_POST"
 const SET_USER_PROFILE = "SET_USER_PROFILE"
 const SET_PROFILE_STATUS = "SET_PROFILE_STATUS"
 const UPDATE_PROFILE_STATUS = "UPDATE_PROFILE_STATUS"
@@ -9,6 +10,10 @@ const UPDATE_PROFILE_STATUS = "UPDATE_PROFILE_STATUS"
 export type AddPostActionType = {
     type: typeof ADD_POST
     postText: string
+}
+export type DeletePostActionType = {
+    type: typeof DELETE_POST
+    id: number
 }
 export type SetUserProfileActionType = {
     type: typeof SET_USER_PROFILE
@@ -52,6 +57,7 @@ export type ProfileType = {
 }
 export type ProfileActionsType =
     AddPostActionType |
+    DeletePostActionType |
     SetUserProfileActionType |
     SetProfileStatusActionType |
     UpdateProfileStatusActionType
@@ -73,8 +79,10 @@ export const profileReducer = (state: InitialStateType = initialState, action: P
         case ADD_POST:
             return {
                 ...state,
-                posts: [...state.posts, {id: 11111, message: action.postText, likesCount: 0}],
+                posts: [{id: 11111, message: action.postText, likesCount: 0}, ...state.posts],
             }
+        case "DELETE_POST":
+            return {...state, posts: state.posts.filter(post => post.id !== action.id)}
         case "SET_USER_PROFILE":
             return {...state, profile: action.profile}
         case "SET_PROFILE_STATUS":
@@ -87,6 +95,7 @@ export const profileReducer = (state: InitialStateType = initialState, action: P
 }
 
 export const addPostAC = (postText: string): AddPostActionType => ({type: ADD_POST, postText} as const)
+export const deletePostAC = (id: number): DeletePostActionType => ({type: DELETE_POST, id} as const)
 const setUserProfile = (profile: ProfileType | null): SetUserProfileActionType =>
     ({type: SET_USER_PROFILE, profile} as const)
 const setProfileStatusSuccess = (status: string): SetProfileStatusActionType =>
