@@ -7,6 +7,7 @@ import {AuthActionsType, authReducer} from "./authReducer";
 import thunk, {ThunkAction} from "redux-thunk";
 import { reducer as formReducer } from 'redux-form'
 import {appReducer} from "./appReducer";
+import {composeWithDevTools} from "redux-devtools-extension";
 
 const rootReducer = combineReducers({
     profilePage: profileReducer,
@@ -18,7 +19,9 @@ const rootReducer = combineReducers({
     app: appReducer
 })
 
-export const store = createStore(rootReducer, applyMiddleware(thunk))
+export const store = createStore(rootReducer, composeWithDevTools(
+    applyMiddleware(thunk)
+))
 
 // определить автоматически тип всего объекта store
 export type ReduxStoreType = typeof store
