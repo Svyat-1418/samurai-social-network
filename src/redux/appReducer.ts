@@ -1,7 +1,7 @@
 import {AppThunk} from "./reduxStore";
 import {getAuthUserData} from "./authReducer";
 
-const INITIALIZED_SUCCESS = 'INITIALIZED_SUCCESS';
+const INITIALIZED_SUCCESS = 'APP/INITIALIZED_SUCCESS';
 
 
 type InitializeSuccessActionType = {
@@ -20,7 +20,7 @@ export type InitialStateType = typeof initialState
 export const appReducer =
     (state: InitialStateType = initialState, action: AppActionsType): InitialStateType => {
     switch (action.type) {
-        case INITIALIZED_SUCCESS:
+        case "APP/INITIALIZED_SUCCESS":
             return {...state, initialized: action.initialized}
         default:
             return state
