@@ -44,8 +44,6 @@ export const Pagination = ({
                     </span>})}
             { portionsCount > currentPortion &&
             <button onClick={() => { setCurrentPortion(currentPortion + 1) }}>NEXT</button> }
-
-
         </div>
     )
 }
