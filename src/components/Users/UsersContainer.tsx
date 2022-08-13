@@ -78,7 +78,7 @@ class UsersAPIComponent extends React.Component<MapStateToPropsType & MapDispatc
     }
 }
 
-export const UsersContainer = compose<React.ComponentType>(
+export default compose<React.ComponentType>(
     withAuthRedirect,
     connect(mapStateToProps, {
         follow, unfollow, fetchUsers, setCurrentPortion

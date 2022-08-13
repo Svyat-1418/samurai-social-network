@@ -1,21 +1,27 @@
-import React from 'react';
-import styles from './App.module.css';
-import {Route, withRouter} from "react-router-dom";
-import {DialogsContainer} from "../Dialogs/DialogsContainer";
-import {UsersContainer} from "../Users/UsersContainer";
+import React, {lazy, Suspense} from 'react';
 
-import {NavbarContainer} from "../Navbar/NavbarContainer";
-import ProfileContainer from "../Profile/ProfileContainer";
+import styles from './App.module.css';
+
+import {compose} from "redux";
+import {connect} from "react-redux";
+import {Route, withRouter} from "react-router-dom";
+
+import {AppRootStateType} from "../../redux/reduxStore";
+import {initializeApp} from "../../redux/appReducer";
+import { withSuspense } from '../../hoc/withSuspense';
+
 import HeaderContainer from '../Header/HeaderContainer';
-import Login from '../Login/Login';
+import {NavbarContainer} from "../Navbar/NavbarContainer";
 import {News} from "../News/News";
 import {Music} from "../Music/Music";
 import {Settings} from "../Settings/Settings";
-import {connect} from "react-redux";
-import {compose} from "redux";
-import {AppRootStateType} from "../../redux/reduxStore";
-import {initializeApp} from "../../redux/appReducer";
 import {Preloader} from "../common/Preloader/Preloader";
+
+// lazy imports wrapped Suspense
+const DialogsContainer = withSuspense(lazy(() => import('../Dialogs/DialogsContainer')))
+const UsersContainer = withSuspense(lazy(() => import('../Users/UsersContainer')))
+const Login = withSuspense(lazy(() => import('../Login/Login')))
+const ProfileContainer = withSuspense(lazy(() => import('../Profile/ProfileContainer')))
 
 type MapStateToPropsType = {
     initialized: boolean
