@@ -9,7 +9,27 @@ beforeEach(() => {
             {id: 2, message: "I like typescript", likesCount: 10},
             {id: 3, message: "I like ReactJS", likesCount: 10}
         ] as Array<PostType>,
-        profile: null as ProfileType | null,
+        profile: {
+            photos: {
+                small: '',
+                large: ''
+            },
+            aboutMe: '',
+            contacts: {
+                facebook: '',
+                website: '',
+                vk: '',
+                twitter: '',
+                instagram: '',
+                youtube: '',
+                github: '',
+                mainLink: '',
+            },
+            fullName: '',
+            userId: 0,
+            lookingForAJob: false,
+            lookingForAJobDescription: ''
+        },
         status: ""
 
     }

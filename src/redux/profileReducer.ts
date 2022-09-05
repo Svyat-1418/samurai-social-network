@@ -6,6 +6,7 @@ const DELETE_POST = "PROFILE/DELETE_POST"
 const SET_USER_PROFILE = "PROFILE/SET_USER_PROFILE"
 const SET_PROFILE_STATUS = "PROFILE/SET_PROFILE_STATUS"
 const UPDATE_PROFILE_STATUS = "PROFILE/UPDATE_PROFILE_STATUS"
+const UPLOAD_PHOTO_FILE = "PROFILE/UPLOAD_PHOTO_FILE"
 
 export type AddPostActionType = {
     type: typeof ADD_POST
@@ -17,7 +18,7 @@ export type DeletePostActionType = {
 }
 export type SetUserProfileActionType = {
     type: typeof SET_USER_PROFILE
-    profile: ProfileType | null
+    profile: ProfileType
 }
 export type SetProfileStatusActionType = {
     type: typeof SET_PROFILE_STATUS
@@ -26,6 +27,10 @@ export type SetProfileStatusActionType = {
 export type UpdateProfileStatusActionType = {
     type: typeof UPDATE_PROFILE_STATUS
     status: string
+}
+export type UploadPhotoFileActionType = {
+    type: typeof UPLOAD_PHOTO_FILE
+    photos: PhotosType
 }
 export type PostType = {
     id: number
@@ -60,19 +65,45 @@ export type ProfileActionsType =
     DeletePostActionType |
     SetUserProfileActionType |
     SetProfileStatusActionType |
-    UpdateProfileStatusActionType
+    UpdateProfileStatusActionType |
+    UploadPhotoFileActionType
 
-const initialState = {
+export type InitialStateType = {
+    posts: Array<PostType>
+    profile: ProfileType,
+    status: string
+}
+
+const initialState: InitialStateType = {
     posts: [
         {id: 1, message: "It is my first typescript project", likesCount: 12},
         {id: 2, message: "I like typescript", likesCount: 10},
         {id: 3, message: "I like ReactJS", likesCount: 10}
-    ] as Array<PostType>,
-    profile: null as ProfileType | null,
+    ],
+    profile: {
+        photos: {
+            small: '',
+            large: ''
+        },
+        aboutMe: '',
+        contacts: {
+            facebook: '',
+            website: '',
+            vk: '',
+            twitter: '',
+            instagram: '',
+            youtube: '',
+            github: '',
+            mainLink: '',
+        },
+        fullName: '',
+        userId: 0,
+        lookingForAJob: false,
+        lookingForAJobDescription: ''
+    },
     status: ""
 
 }
-export type InitialStateType = typeof initialState
 
 export const profileReducer = (state: InitialStateType = initialState, action: ProfileActionsType): InitialStateType => {
     switch (action.type) {
@@ -89,6 +120,8 @@ export const profileReducer = (state: InitialStateType = initialState, action: P
             return {...state, status: action.status}
         case "PROFILE/UPDATE_PROFILE_STATUS":
             return {...state, status: action.status}
+        case "PROFILE/UPLOAD_PHOTO_FILE":
+            return {...state, profile: {...state.profile, photos: action.photos}}
         default:
             return state
     }
@@ -96,12 +129,14 @@ export const profileReducer = (state: InitialStateType = initialState, action: P
 
 export const addPostAC = (postText: string): AddPostActionType => ({type: ADD_POST, postText} as const)
 export const deletePostAC = (id: number): DeletePostActionType => ({type: DELETE_POST, id} as const)
-const setUserProfile = (profile: ProfileType | null): SetUserProfileActionType =>
+const setUserProfile = (profile: ProfileType): SetUserProfileActionType =>
     ({type: SET_USER_PROFILE, profile} as const)
 const setProfileStatusSuccess = (status: string): SetProfileStatusActionType =>
     ({type: SET_PROFILE_STATUS, status} as const)
 const updateProfileStatusSuccess = (status: string): UpdateProfileStatusActionType =>
     ({type: UPDATE_PROFILE_STATUS, status} as const)
+const uploadPhotoFileSuccess = (photos: PhotosType): UploadPhotoFileActionType =>
+    ({type: UPLOAD_PHOTO_FILE, photos} as const)
 
 export const getUserProfile = (userId: number): AppThunk => async (dispatch) => {
     const res = await usersAPI.getProfile(userId)
@@ -114,4 +149,8 @@ export const getProfileStatus = (userId: number): AppThunk => async (dispatch) =
 export const updateProfileStatus = (status: string): AppThunk => async (dispatch) => {
     const res = await profileAPI.updateProfileStatus(status)
     dispatch(updateProfileStatusSuccess(status))
+}
+export const uploadPhotoFile = (photoFile: File): AppThunk => async (dispatch) => {
+    const res = await profileAPI.uploadPhoto(photoFile)
+    dispatch(uploadPhotoFileSuccess(res.data.data.photos))
 }
