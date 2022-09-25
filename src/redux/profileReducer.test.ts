@@ -30,7 +30,8 @@ beforeEach(() => {
             lookingForAJob: false,
             lookingForAJobDescription: ''
         },
-        status: ""
+        status: "",
+        requestStatus: "idle"
 
     }
 })

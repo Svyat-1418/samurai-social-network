@@ -1,5 +1,6 @@
 import axios from "axios";
 import {UserType} from "../redux/usersReducer";
+import {ContactsType} from "../redux/profileReducer";
 
 const instance = axios.create({
     withCredentials: true,
@@ -31,6 +32,9 @@ export const usersAPI = {
 export const profileAPI = {
     getProfile(userId: number) {
         return instance.get(`profile/${userId}`)
+    },
+    updateProfile(payload: UpdateProfilePayloadType) {
+        return instance.put<UpdateProfileResponseType>(`profile`, payload)
     },
     getProfileStatus(userId: number) {
         return instance.get(`profile/status/${userId}`)
@@ -72,6 +76,19 @@ type AuthMeResponseType = {
     id: number
     email: string
     login: string
+}
+export type UpdateProfilePayloadType = {
+    aboutMe: string,
+    contacts: ContactsType,
+    lookingForAJob: boolean,
+    lookingForAJobDescription: string
+    fullName: string
+}
+type UpdateProfileResponseType = {
+    data: {},
+    messages: Array<string>,
+    fieldsErrors: Array<string>,
+    resultCode: ResultCode
 }
 type GetUsersResponseType = {
     error: string | null
