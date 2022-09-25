@@ -4,11 +4,11 @@ import styles from './App.module.css';
 
 import {compose} from "redux";
 import {connect} from "react-redux";
-import {Route, withRouter} from "react-router-dom";
+import {Route, Switch, withRouter} from "react-router-dom";
 
 import {AppRootStateType} from "../../redux/reduxStore";
 import {initializeApp} from "../../redux/appReducer";
-import { withSuspense } from '../../hoc/withSuspense';
+import {withSuspense} from '../../hoc/withSuspense';
 
 import HeaderContainer from '../Header/HeaderContainer';
 import {NavbarContainer} from "../Navbar/NavbarContainer";
@@ -24,58 +24,74 @@ const Login = withSuspense(lazy(() => import('../Login/Login')))
 const ProfileContainer = withSuspense(lazy(() => import('../Profile/ProfileContainer')))
 
 type MapStateToPropsType = {
-    initialized: boolean
+  initialized: boolean
 }
 export type MapDispatchToPropsType = {
-    initializeApp: () => void
+  initializeApp: () => void
 }
 
-class App extends React.Component<MapStateToPropsType & MapDispatchToPropsType>{
-    componentDidMount() {
-        this.props.initializeApp()
+class App extends React.Component<MapStateToPropsType & MapDispatchToPropsType> {
+  componentDidMount() {
+    this.props.initializeApp()
+  }
+
+  preloaderStyle = {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center"
+  }
+
+  render() {
+    if (!this.props.initialized) {
+      return (
+        <div style={this.preloaderStyle}>
+          <Preloader/>
+        </div>
+      )
     }
 
-    preloaderStyle = {
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center"
-    }
+    return (
+      <div className={styles.appWrapper}>
+        <HeaderContainer/>
+        <NavbarContainer/>
+        <div className={styles.appContentWrapper}>
+          <Switch>
 
-    render() {
-        if (!this.props.initialized) {
-            return (
-                <div style={this.preloaderStyle}>
-                    <Preloader />
-                </div>
-            )
-        }
+            <Route path={"/"}
+                   render={() => <ProfileContainer/>} />
+            <Route path='/dialogs'
+                   render={() => <DialogsContainer/>}/>
+            <Route path='/profile/:userId?'
+                   render={() => <ProfileContainer/>}/>
+            <Route path='/users'
+                   render={() => <UsersContainer/>}/>
+            <Route path='/login' render={() => <Login/>}/>
 
-        return (
-            <div className={styles.appWrapper}>
-                <HeaderContainer/>
-                <NavbarContainer/>
-                <div className={styles.appContentWrapper}>
-                    <Route path='/dialogs'
-                           render={() => <DialogsContainer/>}/>
-                    <Route path='/profile/:userId?'
-                           render={() => <ProfileContainer/>}/>
-                    <Route path='/users'
-                           render={() => <UsersContainer/>}/>
-                    <Route path='/login' render={() => <Login/>}/>
-
-                    <Route path={"/news"} component={News}/>
-                    <Route path={"/music"} component={Music}/>
-                    <Route path={"/settings"} component={Settings}/>
-                </div>
-            </div>
-        )
-    }
+            <Route path={"/news"} component={News}/>
+            <Route path={"/music"}
+                     component={Music}/>
+            <Route path={"/settings"}
+                     component={Settings}/>
+            <Route path={"*"}
+                   render={() => <div style={{
+                     height: "100vh",
+                     display: "flex",
+                     justifyContent: "center",
+                     alignItems: "center",
+                   }}>
+                     <h1>Page Not Found :-(</h1>
+                   </div>} />
+          </Switch>
+        </div>
+      </div>
+    )
+  }
 }
 
 const mapStateToProps = (state: AppRootStateType): MapStateToPropsType =>
-    ({initialized: state.app.initialized})
+  ({initialized: state.app.initialized})
 
 export default compose<React.ComponentType>(
-    withRouter,
-    connect(mapStateToProps, {initializeApp})
+  withRouter,
+  connect(mapStateToProps, {initializeApp})
 )(App)
