@@ -22,12 +22,12 @@ const AddPostForm = (props: InjectedFormProps<FormDataType>) => {
     return (
         <form onSubmit={props.handleSubmit}>
             <div>
-                <Field
-                    component={Textarea}
-                    name={"postText"}
-                    placeholder="Write post text here..."
-                    validate={[required, validateMaxLength]}
-                />
+                {/*<Field*/}
+                {/*    component={Textarea}*/}
+                {/*    name={"postText"}*/}
+                {/*    placeholder="Write post text here..."*/}
+                {/*    validate={[required, validateMaxLength]}*/}
+                {/*/>*/}
             </div>
             <div>
                 <button>Add post</button>
@@ -46,7 +46,7 @@ export const MyPosts = React.memo((props: PropsType) => {
 
     return (
         <>
-            <AddPostReduxForm onSubmit={onSubmit}/>
+            {/*<AddPostReduxForm onSubmit={onSubmit}/>*/}
             <div className={styles.posts}>
                 {props.profilePage.posts.map(p => <Post key={p.id} id={p.id} message={p.message}
                                                         likesCount={p.likesCount}/>)}

@@ -22,33 +22,33 @@ export const ProfileDataForm:
 
       <div>
         <strong>Full name</strong>:
-        <Field component={Input}
-               name={"fullName"}
-               placeholder={"Type your full name"}
-        />
+        {/*<Field component={Input}*/}
+        {/*       name={"fullName"}*/}
+        {/*       placeholder={"Type your full name"}*/}
+        {/*/>*/}
       </div>
 
       <div>
         <strong>About me</strong>:
-        <Field component={Textarea}
-               name={"aboutMe"}
-               placeholder={"Tell about yourself..."}
-        />
+        {/*<Field component={Textarea}*/}
+        {/*       name={"aboutMe"}*/}
+        {/*       placeholder={"Tell about yourself..."}*/}
+        {/*/>*/}
       </div>
 
       <div>
         <strong>Looking for a job</strong>:
-        <Field component={Input}
-               type={"checkbox"}
-               name={"lookingForAJob"}
-        />
+        {/*<Field component={Input}*/}
+        {/*       type={"checkbox"}*/}
+        {/*       name={"lookingForAJob"}*/}
+        {/*/>*/}
 
         <div>
           <strong>My professional skills</strong>:
-          <Field component={Textarea}
-                 placeholder={"Type your professional skills"}
-                 name={"lookingForAJobDescription"}
-          />
+          {/*<Field component={Textarea}*/}
+          {/*       placeholder={"Type your professional skills"}*/}
+          {/*       name={"lookingForAJobDescription"}*/}
+          {/*/>*/}
 
           <div>
             <strong>Contacts</strong>: {
@@ -56,10 +56,10 @@ export const ProfileDataForm:
               return (
                 <div key={key}>
                   <strong>{key}</strong>
-                  <Field name={"contacts." + key}
-                         component={Input}
-                         placeholder={`Type valid ${key} URL`}
-                  />
+                  {/*<Field name={"contacts." + key}*/}
+                  {/*       component={Input}*/}
+                  {/*       placeholder={`Type valid ${key} URL`}*/}
+                  {/*/>*/}
                 </div>
               )
 

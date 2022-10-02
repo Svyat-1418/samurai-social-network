@@ -5,7 +5,7 @@ import {Input} from "../common/FieldControls/FieldControls";
 import {connect} from "react-redux";
 import {login} from "../../redux/authReducer";
 import {AppRootStateType} from "../../redux/reduxStore";
-import {Redirect} from "react-router-dom";
+import {Navigate} from "react-router-dom";
 import {LoginPayloadType} from "../../api/api";
 import styles from "../common/FieldControls/FieldControls.module.css"
 
@@ -38,42 +38,42 @@ const LoginForm = (props: InjectedFormProps<FormDataType, PropsType> & PropsType
   return (
     <form onSubmit={props.handleSubmit}>
       <div>
-        <Field
-          component={Input}
-          name={"email"}
-          placeholder={"Type your email"}
-          validate={[required]}
-        />
+        {/*<Field*/}
+        {/*  component={Input}*/}
+        {/*  name={"email"}*/}
+        {/*  placeholder={"Type your email"}*/}
+        {/*  validate={[required]}*/}
+        {/*/>*/}
       </div>
       <div>
-        <Field
-          component={Input}
-          type={"password"}
-          name={"password"}
-          placeholder={"Type your password"}
-          validate={[required]}
-        />
+        {/*<Field*/}
+        {/*  component={Input}*/}
+        {/*  type={"password"}*/}
+        {/*  name={"password"}*/}
+        {/*  placeholder={"Type your password"}*/}
+        {/*  validate={[required]}*/}
+        {/*/>*/}
       </div>
       {/* view res error on layout */}
       {props.error && <div className={styles.summaryLoginFormError}>
         {props.error}
       </div>}
       <div>
-        <Field
-          component={"input"}
-          type={"checkbox"}
-          name={"rememberMe"}
-        />
+        {/*<Field*/}
+        {/*  component={"input"}*/}
+        {/*  type={"checkbox"}*/}
+        {/*  name={"rememberMe"}*/}
+        {/*/>*/}
         Remember Me
       </div>
 
       {props.captchaUrl &&
           <div>
               <img src={props.captchaUrl} alt=""/>
-              <Field name="captchaUrl"
-                     component={Input}
-                     placeholder={"Type symbols from captcha"}
-              />
+              {/*<Field name="captchaUrl"*/}
+              {/*       component={Input}*/}
+              {/*       placeholder={"Type symbols from captcha"}*/}
+              {/*/>*/}
           </div>
       }
 
@@ -96,12 +96,12 @@ export const Login = (props: LoginPropsType) => {
   }
 
   if (props.isAuth) {
-    return <Redirect to={"/profile"}/>
+    return <Navigate to={"/profile"}/>
   }
 
   return (<div>
       <h1>Login</h1>
-      <LoginReduxForm onSubmit={onSubmit} captchaUrl={props.captchaUrl}/>
+      {/*<LoginReduxForm onSubmit={onSubmit} captchaUrl={props.captchaUrl}/>*/}
     </div>
   )
 }

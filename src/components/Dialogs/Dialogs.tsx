@@ -22,12 +22,12 @@ const SendMessageForm = (props: InjectedFormProps<FormDataType>) => {
 
     return (
         <form onSubmit={props.handleSubmit} className={styles.sendMessageForm}>
-            <Field
-                component={Textarea}
-                name={"messageText"}
-                placeholder="Write new message"
-                validate={[required, validateMaxLength]}
-            />
+            {/*<Field*/}
+            {/*    component={Textarea}*/}
+            {/*    name={"messageText"}*/}
+            {/*    placeholder="Write new message"*/}
+            {/*    validate={[required, validateMaxLength]}*/}
+            {/*/>*/}
             <div>
                 <button>Send</button>
             </div>
@@ -48,7 +48,7 @@ export const Dialogs = (props: PropsType) => {
             <div className={styles.dialogsWrapper}>
                 <h3 className={styles.title}>Dialogs</h3>
                 {props.dialogsPage.dialogs.map(d => <Dialog key={d.id} id={d.id} name={d.name}/>)}
-                <SendMessageReduxForm onSubmit={onSubmit} />
+                {/*<SendMessageReduxForm onSubmit={onSubmit} />*/}
             </div>
 
             <div className={styles.messagesWrapper}>

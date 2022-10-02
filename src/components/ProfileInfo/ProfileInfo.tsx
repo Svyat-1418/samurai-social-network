@@ -70,11 +70,12 @@ export const ProfileInfo = (props: PropsType) => {
         }
 
         {editMode
-          ? <ProfileDataReduxForm
+          ? <div></div>
+          /*<ProfileDataReduxForm
             onSubmit={onSubmit}
             initialValues={props.profile}
             profile={props.profile}
-          />
+          />*/
           : <ProfileData
             isOwner={props.isOwner}
             setEditMode={setEditMode}

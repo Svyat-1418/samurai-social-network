@@ -1,11 +1,9 @@
-import React, {ComponentType, Suspense} from "react";
-import {Preloader} from "../components/common/Preloader/Preloader";
+import React from "react"
 
-export function withSuspense<T>(Component: ComponentType<T>) {
-    const WrappedSuspenseComponent = (props: T) => {
-        return <Suspense fallback={<Preloader/>}>
-            <Component {...props } />
-        </Suspense>
-    }
-    return WrappedSuspenseComponent
+export function withSuspense<WCP extends JSX.IntrinsicAttributes>(WrappedComponent: React.ComponentType<WCP>) {
+  return (props: WCP) => {
+    return <React.Suspense fallback={<div>loading...</div>} >
+      <WrappedComponent {...props} />
+    </React.Suspense>
+  }
 }

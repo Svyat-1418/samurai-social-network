@@ -1,18 +1,20 @@
 import * as serviceWorker from './serviceWorker';
 import {store} from "./redux/reduxStore";
 import React from 'react';
-import ReactDOM from 'react-dom';
+import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './components/App/App';
 import {BrowserRouter} from "react-router-dom";
 import {Provider} from "react-redux";
 
-ReactDOM.render(
-    <BrowserRouter>
-        <Provider store={store}>
-            <App/>
-        </Provider>
-    </BrowserRouter>, document.getElementById('root'));
+const root = ReactDOM.createRoot(
+  document.getElementById("root") as HTMLElement)
+root.render(
+  <BrowserRouter>
+    <Provider store={store}>
+      <App/>
+    </Provider>
+  </BrowserRouter>)
 
 
 // API

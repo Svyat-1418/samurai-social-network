@@ -9,9 +9,12 @@ import {
 } from "../../redux/profileReducer";
 import {AppRootStateType} from "../../redux/reduxStore";
 import {connect} from "react-redux";
+/*
 import {RouteComponentProps, withRouter} from "react-router-dom";
+*/
 import {compose} from "redux";
 import {UpdateProfilePayloadType} from "../../api/api";
+import {withRouter} from "../../hoc/withRouter";
 
 type MapStateToPropsType = {
   profile: ProfileType
@@ -32,15 +35,21 @@ type UrlParams = {
   userId: string
 }
 
-type PropsType = RouteComponentProps<UrlParams> & MapStateToPropsType & MapDispatchToPropsType
+//type PropsType = RouteComponentProps<UrlParams> & MapStateToPropsType & MapDispatchToPropsType
+type PropsType = MapStateToPropsType & MapDispatchToPropsType & {
+  params: {
+    userId: string
+  }
+  navigate: (path: string) => void
+}
 
 class ProfileContainer extends React.PureComponent<PropsType> {
   updateProfileDataFlow = () => {
-    let userId = this.props.match.params.userId
+    let userId = this.props.params.userId
     if (!userId) {
       userId = this.props.authorizedUserId
       if (!userId) {
-        this.props.history.push("/login")
+        this.props.navigate("/login")
       }
     }
     this.props.getUserProfile(+userId)
@@ -52,7 +61,7 @@ class ProfileContainer extends React.PureComponent<PropsType> {
   }
 
   componentDidUpdate(prevProps: Readonly<PropsType>, prevState: Readonly<{}>) {
-    if (this.props.match.params.userId !== prevProps.match.params.userId) {
+    if (this.props.params.userId !== prevProps.params.userId) {
       this.updateProfileDataFlow()
     }
   }
@@ -60,7 +69,7 @@ class ProfileContainer extends React.PureComponent<PropsType> {
   render() {
     return <Profile {...this.props}
                     status={this.props.status}
-                    isOwner={!this.props.match.params.userId}
+                    isOwner={!this.props.params.userId}
                     updateProfileStatus={this.props.updateProfileStatus}
                     uploadPhotoFile={this.props.uploadPhotoFile}
                     profile={this.props.profile}

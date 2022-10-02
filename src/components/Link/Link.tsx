@@ -11,7 +11,7 @@ type PropsType = {
 const Link = (props: PropsType) => {
     return (
         <div className={s.link}>
-            <NavLink to={props.path} activeClassName={s.active}>{props.linkLabel}</NavLink>
+            <NavLink to={props.path} className={({ isActive}) => isActive ? s.active : '' }>{props.linkLabel}</NavLink>
         </div>
     )
 }
